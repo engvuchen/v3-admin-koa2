@@ -1,0 +1,1 @@
+import{l as t,J as o,K as e}from"./element-plus-CdAUbEXj.js";const n=e("dt",null,"有以下两种方式设置页面不缓存：",-1),s=e("dd",null,"- 当前页面不设置 name 属性",-1),c=e("dd",null,"- 或者路由配置的 meta 增加 noCache: true",-1),a=[n,s,c],_={name:"test-no-cache"},h=Object.assign(_,{setup(l){return console.log("nocache"),(d,r)=>(t(),o("dl",null,a))}});export{h as default};

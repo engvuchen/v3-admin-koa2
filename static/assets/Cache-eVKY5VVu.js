@@ -1,0 +1,1 @@
+import{a9 as t,l as o,J as n,K as e}from"./element-plus-CdAUbEXj.js";const a=e("dt",null,"页面缓存必须满足以下条件：",-1),s=e("dd",null,"1. 路由配置name属性",-1),c=e("dd",null,"2. 当前页面设置name属性，并且跟路由配置的name属性一致，否则无法缓存",-1),l=[a,s,c],m={__name:"Cache",setup(_){return t(()=>{console.log("onActivated")}),(d,r)=>(o(),n("dl",null,l))}};export{m as default};

@@ -1,0 +1,1 @@
+import{_ as t}from"./index-Cks_emWr.js";import{k as n,l as r,J as s,j as c,F as a,K as e}from"./element-plus-CdAUbEXj.js";const _={},l=e("h1",null,"二级菜单",-1),m=e("h3",null,"二级菜单的页面是不会缓存的",-1);function i(u,d){const o=n("router-view");return r(),s(a,null,[l,m,c(o)],64)}const h=t(_,[["render",i]]);export{h as default};

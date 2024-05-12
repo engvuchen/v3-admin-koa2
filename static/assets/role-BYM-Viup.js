@@ -1,0 +1,1 @@
+import{n as o}from"./index-Cks_emWr.js";const t=e=>o({url:"/role/list",method:"get",params:e}),s=e=>o({url:"/role/modify",method:"post",data:e}),l=e=>o({url:"/role/del",method:"post",data:e});export{t as a,l as b,s as c};

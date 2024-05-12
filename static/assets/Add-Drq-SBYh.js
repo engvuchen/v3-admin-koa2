@@ -1,0 +1,1 @@
+import{_ as o}from"./index-Cks_emWr.js";import{l as r,J as a,F as s,K as e,R as t}from"./element-plus-CdAUbEXj.js";const c={},n=e("h2",null,"该页面入口不在菜单中显示",-1),_=e("div",null,[t(" 如果不需要在菜单中显示： "),e("br"),t(" 需要配置路由增加属性 hide: true，注意不是在meta中增加该属性，而是跟meta同级 ")],-1);function d(l,m){return r(),a(s,null,[n,_],64)}const u=o(c,[["render",d]]);export{u as default};
