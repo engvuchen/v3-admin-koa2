@@ -17,13 +17,18 @@ function enbcrypt(password) {
  * @param {Object} options - {basename, skips}
  * @returns [ mod ] 或 [{ mode, basename }]
  */
-function multiRequireJs(folderPath = '', { basename = false, skips = [] } = {}) {
+function multiRequireJs(
+    folderPath = '',
+    { basename = false, skips = [] } = {}
+) {
     const files = fs.readdirSync(folderPath);
 
     const modules = files.reduce((list, file) => {
         const filePath = path.join(folderPath, file); // 获取文件的完整路径
 
-        if (path.extname(filePath) !== '.js' || skips.includes(file)) return list;
+        if (path.extname(filePath) !== '.js' || skips.includes(file)) {
+            return list;
+        }
 
         const mod = require(filePath);
 
@@ -46,7 +51,7 @@ function getRequiredFields(schema) {
     // console.log('schema', schema);
 
     // 遍历模型的所有字段
-    Object.values(schema.paths).forEach(conf => {
+    Object.values(schema.paths).forEach((conf) => {
         if (conf.isRequired) {
             requiredFields.push(conf.path);
         }
@@ -62,7 +67,7 @@ function getRequiredFields(schema) {
 }
 // 返回 req 中 schema 的缺失字段
 function getMissRequiredField(requireFields, data) {
-    return requireFields.find(key => data[key] === undefined);
+    return requireFields.find((key) => data[key] === undefined);
 }
 
 /** id 转为 ObjectId */
@@ -74,6 +79,18 @@ function getMongoObjectId(id) {
     } catch (error) {}
     return objectId;
 }
+
+/**
+ * 转义正则表达式特殊字符，防止正则表达式注入攻击
+ * @param {String} str 需要转义的字符串
+ * @returns {String} 转义后的字符串
+ */
+function escapeRegex(str) {
+    if (typeof str !== 'string') return str;
+    // 转义正则表达式的特殊字符：. * + ? ^ $ { } ( ) | [ ] \
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 /**
  * 获取 find 的查询对象。默认 keys 中都需要支持模糊查询
  * @params {Array} keys
@@ -86,15 +103,26 @@ function getQueryObj(keys = [], data) {
         let val = data[key];
         if (val === undefined || val === '') return list;
 
+        // 判断是否需要 decode：字符串类型且包含有效的 URL 编码格式（%XX，XX 为十六进制）
+        if (typeof val === 'string' && /%[0-9A-Fa-f]{2}/.test(val)) {
+            try {
+                val = decodeURIComponent(val);
+            } catch (error) {
+                // decode 失败时保持原值
+            }
+        }
+        // 对字符串值进行正则表达式转义，防止注入攻击；库里存储的值是转义过的
+        if (typeof val === 'string') {
+            val = escapeRegex(val);
+        }
+
         list.push({
             [key]: { $regex: val, $options: 'i' }, // 字符串 模糊查询
         });
         return list;
     }, []);
 
-    if (result.length) {
-        query.$and = result;
-    }
+    if (result.length) query.$and = result;
 
     return query;
 }
